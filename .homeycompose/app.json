@@ -1,0 +1,54 @@
+{
+  "id": "com.samsung.wam",
+  "version": "0.0.1",
+  "compatibility": ">=2.0.0",
+  "sdk": 2,
+  "brandColor": "#206ADF",
+  "name": {
+    "en": "Samsung Wireless Audio Multiroom"
+  },
+  "description": {
+    "en": "Samsung Wireless Audio Multiroom support for Homey"
+  },
+  "category": [
+    "music"
+  ],
+  "tags": {
+    "en": [
+      "samsung",
+      "soundbar",
+      "wireless",
+      "audio",
+      "multiroom"
+    ]
+  },
+  "images": {
+    "large": "/assets/images/large.png",
+    "small": "/assets/images/small.png"
+  },
+  "permissions": [],
+  "author": {
+    "name": "Bjørnar Almli",
+    "email": "bjornar.almli@gmail.com"
+  },
+  "contributors": {
+    "developers": [
+      {
+        "name": "Bjørnar Almli",
+        "email": "bjornar.almli@gmail.com"
+      }
+    ]
+  },
+  "contributing": {
+    "donate": {
+      "paypal": {
+        "username": "bjornaralmli"
+      }
+    }
+  },
+  "bugs": {
+    "url": "https://github.com/balmli/com.samsung.wam/issues"
+  },
+  "homeyCommunityTopicId": 666,
+  "source": "https://github.com/balmli/com.samsung.wam"
+}

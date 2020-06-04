@@ -1,0 +1,319 @@
+{
+  "id": "com.samsung.wam",
+  "version": "0.0.1",
+  "compatibility": ">=2.0.0",
+  "sdk": 2,
+  "brandColor": "#206ADF",
+  "name": {
+    "en": "Samsung Wireless Audio Multiroom"
+  },
+  "description": {
+    "en": "Samsung Wireless Audio Multiroom support for Homey"
+  },
+  "category": [
+    "music"
+  ],
+  "tags": {
+    "en": [
+      "samsung",
+      "soundbar",
+      "wireless",
+      "audio",
+      "multiroom"
+    ]
+  },
+  "images": {
+    "large": "/assets/images/large.png",
+    "small": "/assets/images/small.png"
+  },
+  "permissions": [],
+  "author": {
+    "name": "Bjørnar Almli",
+    "email": "bjornar.almli@gmail.com"
+  },
+  "contributors": {
+    "developers": [
+      {
+        "name": "Bjørnar Almli",
+        "email": "bjornar.almli@gmail.com"
+      }
+    ]
+  },
+  "contributing": {
+    "donate": {
+      "paypal": {
+        "username": "bjornaralmli"
+      }
+    }
+  },
+  "bugs": {
+    "url": "https://github.com/balmli/com.samsung.wam/issues"
+  },
+  "homeyCommunityTopicId": 666,
+  "source": "https://github.com/balmli/com.samsung.wam",
+  "flow": {
+    "actions": [
+      {
+        "id": "samsung_wam_func",
+        "title": {
+          "en": "Set input source"
+        },
+        "hint": {
+          "en": "Set input source"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=SamsungWAM"
+          },
+          {
+            "name": "inputSource",
+            "label": {
+              "en": "Input source"
+            },
+            "type": "dropdown",
+            "values": [
+              {
+                "id": "optical",
+                "label": {
+                  "en": "D.IN"
+                }
+              },
+              {
+                "id": "aux",
+                "label": {
+                  "en": "Aux"
+                }
+              },
+              {
+                "id": "hdmi",
+                "label": {
+                  "en": "HDMI"
+                }
+              },
+              {
+                "id": "hdmi1",
+                "label": {
+                  "en": "HDMI1"
+                }
+              },
+              {
+                "id": "hdmi2",
+                "label": {
+                  "en": "HDMI2"
+                }
+              },
+              {
+                "id": "bt",
+                "label": {
+                  "en": "BT"
+                }
+              },
+              {
+                "id": "wifi",
+                "label": {
+                  "en": "Wifi"
+                }
+              },
+              {
+                "id": "soundshare",
+                "label": {
+                  "en": "Soundshare"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "samsung_wam_playurl",
+        "title": {
+          "en": "Play url"
+        },
+        "hint": {
+          "en": "Play url."
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=SamsungWAM"
+          },
+          {
+            "name": "url",
+            "type": "text",
+            "title": {
+              "en": "URL"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "drivers": [
+    {
+      "id": "SamsungWAM",
+      "name": {
+        "en": "Samsung Wireless Audio Multiroom"
+      },
+      "icon": "/drivers/SamsungWAM/assets/icon.svg",
+      "images": {
+        "large": "/drivers/SamsungWAM/assets/images/large.png",
+        "small": "/drivers/SamsungWAM/assets/images/small.png"
+      },
+      "class": "amplifier",
+      "capabilities": [
+        "onoff",
+        "volume_set",
+        "volume_up",
+        "volume_down",
+        "volume_mute",
+        "samsung_wam_func"
+      ],
+      "capabilitiesOptions": {},
+      "discovery": "samsung_wam",
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_my_devices"
+          }
+        },
+        {
+          "id": "add_my_devices",
+          "template": "add_devices"
+        }
+      ],
+      "settings": [
+        {
+          "type": "group",
+          "label": {
+            "en": "General settings"
+          },
+          "children": [
+            {
+              "id": "poll_interval",
+              "type": "number",
+              "label": {
+                "en": "Polling interval"
+              },
+              "value": 10,
+              "min": 10,
+              "max:": 1000,
+              "hint": {
+                "en": "Polling interval (seconds)"
+              }
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Audio settings"
+          },
+          "children": [
+            {
+              "id": "max_volume",
+              "type": "number",
+              "label": {
+                "en": "Max volume"
+              },
+              "value": 30,
+              "min": 1,
+              "max:": 100,
+              "hint": {
+                "en": "Max. volume level"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "capabilities": {
+    "samsung_wam_func": {
+      "type": "enum",
+      "uiComponent": "picker",
+      "title": {
+        "en": "Input source"
+      },
+      "desc": {
+        "en": "Input source"
+      },
+      "values": [
+        {
+          "id": "optical",
+          "title": {
+            "en": "D.IN"
+          }
+        },
+        {
+          "id": "aux",
+          "title": {
+            "en": "Aux"
+          }
+        },
+        {
+          "id": "hdmi",
+          "title": {
+            "en": "HDMI"
+          }
+        },
+        {
+          "id": "hdmi1",
+          "title": {
+            "en": "HDMI1"
+          }
+        },
+        {
+          "id": "hdmi2",
+          "title": {
+            "en": "HDMI2"
+          }
+        },
+        {
+          "id": "bt",
+          "title": {
+            "en": "BT"
+          }
+        },
+        {
+          "id": "wifi",
+          "title": {
+            "en": "Wifi"
+          }
+        },
+        {
+          "id": "soundshare",
+          "title": {
+            "en": "Soundshare"
+          }
+        }
+      ],
+      "getable": true,
+      "setable": true
+    }
+  },
+  "discovery": {
+    "samsung_wam": {
+      "type": "ssdp",
+      "ssdp": {
+        "search": "urn:dial-multiscreen-org:service:dial:1"
+      },
+      "id": "{{headers.usn}}",
+      "conditions": [
+        [
+          {
+            "field": "headers.st",
+            "match": {
+              "type": "string",
+              "value": "urn:dial-multiscreen-org:service:dial:1"
+            }
+          }
+        ]
+      ]
+    }
+  }
+}

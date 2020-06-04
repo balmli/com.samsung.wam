@@ -1,0 +1,13 @@
+{
+	"id": "poll_interval",
+	"type": "number",
+  "label": {
+    "en": "Polling interval"
+  },
+  "value": 10,
+	"min": 10,
+	"max:": 1000,
+  "hint": {
+    "en": "Polling interval (seconds)"
+  }
+}

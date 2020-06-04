@@ -1,0 +1,18 @@
+{
+  "type": "ssdp",
+  "ssdp": {
+    "search": "urn:dial-multiscreen-org:service:dial:1"
+  },
+  "id": "{{headers.usn}}",
+  "conditions": [
+    [
+      {
+        "field": "headers.st",
+        "match": {
+          "type": "string",
+          "value": "urn:dial-multiscreen-org:service:dial:1"
+        }
+      }
+    ]
+  ]
+}

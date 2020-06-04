@@ -1,0 +1,23 @@
+{
+  "id": "samsung_wam_playurl",
+  "title": {
+    "en": "Play url"
+  },
+  "hint": {
+    "en": "Play url."
+  },
+  "args": [
+    {
+      "name": "device",
+      "type": "device",
+      "filter": "driver_id=SamsungWAM"
+    },
+    {
+      "name": "url",
+      "type": "text",
+      "title": {
+        "en": "URL"
+      }
+    }
+  ]
+}
