@@ -1,14 +1,2 @@
 {
-  "pair": {
-    "title": "Systemair IAM Cloud",
-    "iam_help": "Enter the IAM id for Systemair Cloud",
-    "iam_label": "IAM id:",
-    "valid_iam": "Enter a valid IAM id",
-    "iam_btn": "Step 1 av 2 ",
-    "password_help": "Enter the password",
-    "password_label": "PASSWORD",
-    "valid_password": "Enter a valid password",
-    "password_failed": "Invalid authentication. Try again.",
-    "password_btn": "Step 2 av 2 "
-  }
 }

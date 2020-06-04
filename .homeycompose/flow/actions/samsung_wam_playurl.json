@@ -1,10 +1,10 @@
 {
   "id": "samsung_wam_playurl",
   "title": {
-    "en": "Play url"
+    "en": "Play audio url"
   },
   "hint": {
-    "en": "Play url."
+    "en": "Play audio url."
   },
   "args": [
     {
