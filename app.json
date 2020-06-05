@@ -49,6 +49,7 @@
   "bugs": {
     "url": "https://github.com/balmli/com.samsung.wam/issues"
   },
+  "homeyCommunityTopicId": 30840,
   "source": "https://github.com/balmli/com.samsung.wam",
   "flow": {
     "actions": [
@@ -258,7 +259,7 @@
     "samsung_wam": {
       "type": "ssdp",
       "ssdp": {
-        "search": "urn:dial-multiscreen-org:service:dial:1"
+        "search": "urn:dial-multiscreen-org:device:dialreceiver:1"
       },
       "id": "{{headers.usn}}",
       "conditions": [
@@ -267,7 +268,7 @@
             "field": "headers.st",
             "match": {
               "type": "string",
-              "value": "urn:dial-multiscreen-org:service:dial:1"
+              "value": "urn:dial-multiscreen-org:device:dialreceiver:1"
             }
           }
         ]
