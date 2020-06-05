@@ -31,21 +31,18 @@ module.exports = class SamsungWAMDriver extends Homey.Driver {
       });
 
       samsungWAMApi.updateIpAddress(discoveryResult.address);
+      samsungWAMApi.updateLocation(discoveryResult.headers.location);
+
       const deviceInfo = await samsungWAMApi.getInfo(undefined, true);
 
       if (deviceInfo) {
 
-        let capabilities = [
-          "volume_set",
-          "volume_up",
-          "volume_down",
-          "volume_mute",
-          "samsung_wam_func"
-        ];
+        const locationInfo = await samsungWAMApi.getLocationInfo();
 
+        let onOff = false;
         try {
           await samsungWAMApi.setPowerStatus(true);
-          capabilities = ["onoff"].concat(capabilities);
+          onOff = true;
         } catch (err) {
           this.log(`On / off is not supported for ${discoveryResult.address}`);
         }
@@ -55,11 +52,13 @@ module.exports = class SamsungWAMDriver extends Homey.Driver {
           data: {
             id: discoveryResult.id,
             type: deviceInfo.device.type,
-            networkType: deviceInfo.device.networkType
+            modelName: locationInfo.root.device[0].modelName[0],
+            networkType: deviceInfo.device.networkType,
+            onOff: onOff
           },
-          capabilities: capabilities,
           store: {
-            ipaddress: discoveryResult.address
+            ipaddress: discoveryResult.address,
+            location: discoveryResult.headers.location
           }
         });
       }

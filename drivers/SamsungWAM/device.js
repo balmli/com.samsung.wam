@@ -11,12 +11,11 @@ module.exports = class SamsungWAMDevice extends Homey.Device {
       logger: this.log,
       onUpdateValues: this.onUpdateValues,
       ip_address: this.getStoreValue('ipaddress'),
+      location: this.getStoreValue('location'),
       api_timeout: 2000
     });
 
-    if (this.hasCapability('onoff')) {
-      this.registerCapabilityListener('onoff', async (value, opts) => this._api.setPowerStatus(value));
-    }
+    this.registerCapabilityListener('onoff', value => this.onSetPowerStatus(value));
     this.registerCapabilityListener('volume_set', value => this.onSetVolume(value));
     this.registerCapabilityListener('volume_mute', () => this.onVolumeMute());
     this.registerCapabilityListener('volume_up', value => this.onVolumeUp());
@@ -24,12 +23,21 @@ module.exports = class SamsungWAMDevice extends Homey.Device {
     this.registerCapabilityListener('samsung_wam_func', value => this.onSetInputSource(value));
 
     this.addFetchTimeout(1);
-    this.log('device initialized');
+    this.log('device initialized', this.getData());
   }
 
-  async updateIpAddress(address) {
-    this._api.updateIpAddress(address);
-    await this.setStoreValue('ipaddress', address);
+  async updateDiscovery(discoveryResult) {
+    this._api.updateIpAddress(discoveryResult.address);
+    await this.setStoreValue('ipaddress', discoveryResult.address);
+    this._api.updateLocation(discoveryResult.headers.location);
+    await this.setStoreValue('location', discoveryResult.headers.location);
+  }
+
+  onAdded() {
+    this.log('device added', this.getData());
+    if (!this.getData().onOff) {
+      this.setCapabilityValue('onoff', true).catch(err => this.log(err));
+    }
   }
 
   onDeleted() {
@@ -43,13 +51,13 @@ module.exports = class SamsungWAMDevice extends Homey.Device {
 
   async onDiscoveryAvailable(discoveryResult) {
     this.log('onDiscoveryAvailable', discoveryResult);
-    this.updateIpAddress(discoveryResult.address);
-    await this._api.getInfo(discoveryResult.address);
+    this.updateDiscovery(discoveryResult);
+    await this._api.getInfo();
   }
 
   onDiscoveryAddressChanged(discoveryResult) {
     this.log('onDiscoveryAddressChanged', discoveryResult);
-    this.updateIpAddress(discoveryResult.address);
+    this.updateDiscovery(discoveryResult);
   }
 
   async onSettings(oldSettingsObj, newSettingsObj, changedKeysArr, callback) {
@@ -64,8 +72,7 @@ module.exports = class SamsungWAMDevice extends Homey.Device {
     this.clearFetchTimeout();
     let interval = seconds;
     if (!interval) {
-      let settings = await this.getSettings();
-      interval = settings.poll_interval || 30;
+      interval = this.getSetting('poll_interval') || 30;
     }
     this.fetchTimeout = setTimeout(() => this.fetchState(), 1000 * interval);
   }
@@ -79,12 +86,18 @@ module.exports = class SamsungWAMDevice extends Homey.Device {
 
   async fetchState() {
     try {
-      const state = await this._api.getState();
-      this.log('state', state);
-      let settings = await this.getSettings();
-      this.setCapabilityValue('volume_set', state.volume / settings.max_volume).catch(err => this.log(err));
-      this.setCapabilityValue('volume_mute', state.muted).catch(err => this.log(err));
-      this.setCapabilityValue('samsung_wam_func', state.func).catch(err => this.log(err));
+      if (this.getCapabilityValue('onoff') || this.getData().onOff) {
+        const state = await this._api.getState(this.getData().onOff);
+        this.log('state', state);
+        if (this.getData().onOff) {
+          this.setCapabilityValue('onoff', state.powerStatus).catch(err => this.log(err));
+        }
+        if (!this.getData().onOff || this.getData().onOff && state.powerStatus) {
+          this.setCapabilityValue('volume_set', state.volume / this.getSetting('max_volume')).catch(err => this.log(err));
+          this.setCapabilityValue('volume_mute', state.muted).catch(err => this.log(err));
+          this.setCapabilityValue('samsung_wam_func', state.func).catch(err => this.log(err));
+        }
+      }
     } catch (err) {
       this.log('fetchState error', err);
     } finally {
@@ -95,11 +108,21 @@ module.exports = class SamsungWAMDevice extends Homey.Device {
   onUpdateValues(device) {
   }
 
+  async onSetPowerStatus(value) {
+    if (this.getData().onOff) {
+      try {
+        this.clearFetchTimeout();
+        return this._api.setPowerStatus(value);
+      } finally {
+        this.addFetchTimeout();
+      }
+    }
+  }
+
   async onSetVolume(value) {
     try {
       this.clearFetchTimeout();
-      let settings = await this.getSettings();
-      return this._api.setVolume(Math.round(value * settings.max_volume));
+      return this._api.setVolume(Math.round(value * this.getSetting('max_volume')));
     } finally {
       this.addFetchTimeout();
     }
@@ -149,6 +172,67 @@ module.exports = class SamsungWAMDevice extends Homey.Device {
     } catch (err) {
       this.log('setUrlPlayback error', err);
     }
+  }
+
+  async onInputSourceAutocomplete(query, args) {
+    let inputSources;
+    switch (this.getData().modelName) {
+      case 'HW-MS650':
+      case 'HW-MS6500':
+        inputSources = [
+          { id: "optical", name: "D.IN" },
+          { id: "aux", name: "Aux" },
+          { id: "hdmi", name: "HDMI" },
+          { id: "bt", name: "BT" },
+          { id: "wifi", name: "Wifi" },
+        ];
+        break;
+
+      case 'HW-K950':
+      case 'HW-MS750':
+      case 'HW-MS7500':
+        inputSources = [
+          { id: "optical", name: "D.IN" },
+          { id: "aux", name: "Aux" },
+          { id: "hdmi1", name: "HDMI1" },
+          { id: "hdmi2", name: "HDMI2" },
+          { id: "bt", name: "BT" },
+          { id: "wifi", name: "Wifi" },
+        ];
+        break;
+
+      case 'HW-H750':
+      case 'HW-J650':
+      case 'HW-J7500':
+      case 'HW-J8500':
+      case 'HW-K650':
+        inputSources = [
+          { id: "optical", name: "D.IN" },
+          { id: "aux", name: "Aux" },
+          { id: "hdmi", name: "HDMI" },
+          { id: "bt", name: "BT" },
+          { id: "wifi", name: "Wifi" },
+          { id: "usb", name: "USB" },
+          { id: "soundshare", name: "Soundshare" },
+        ];
+        break;
+
+      default:
+        inputSources = [
+          { id: "bt", name: "BT" },
+          { id: "wifi", name: "Wifi" },
+          { id: "soundshare", name: "Soundshare" }
+        ];
+        break;
+    }
+    return Promise.resolve((inputSources).map(is => {
+      return {
+        id: is.id,
+        name: is.name
+      };
+    }).filter(result => {
+      return result.name.toLowerCase().indexOf(query.toLowerCase()) > -1;
+    }));
   }
 
 };

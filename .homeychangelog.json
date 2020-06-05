@@ -1,6 +1,8 @@
 {
+  "0.9.1": {
+    "en": "On/off capability for soundbars than does not support power status. "
+  },
   "0.9.0": {
-    "en": "First version",
-    "no": "Første versjon"
+    "en": "First version"
   }
 }

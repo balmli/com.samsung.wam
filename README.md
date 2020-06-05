@@ -6,10 +6,19 @@ Use this app to control your Samsung soundbar.
 
 #### Triggers
 
+- Turned on
+- Turned off
 - Volume changed
+
+#### Conditions
+
+- Is on
 
 #### Actions
 
+- Turn on
+- Turn off
+- Toggle
 - Set volume
 - Increase volume
 - Decrease volume
@@ -27,6 +36,10 @@ Please report issues at the [issues section on Github](https://github.com/balmli
 Use at your own risk. I accept no responsibility for any damages caused by using this app.
 
 ## Release Notes:
+
+#### 0.9.1
+
+- On/off capability for soundbars than does not support power status 
 
 #### 0.9.0
 

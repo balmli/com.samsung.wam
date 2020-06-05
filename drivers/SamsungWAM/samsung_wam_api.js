@@ -17,6 +17,10 @@ module.exports = class SamsungWAMApi {
     this._config.ip_address = address;
   }
 
+  updateLocation(location) {
+    this._config.location = location;
+  }
+
   async getInfo(ipAddress, skipErrors = false) {
     try {
       const ip_address = ipAddress || this._config.ip_address;
@@ -43,6 +47,23 @@ module.exports = class SamsungWAMApi {
     }
   }
 
+  async getLocationInfo() {
+    try {
+      const data = await http.get({
+        uri: this._config.location,
+        timeout: this._config.api_timeout
+      });
+      if (data.data && data.response.statusCode === 200) {
+        this._logger(`Get location info: ${this._config.location}`, data.data);
+        return await xml2js.parseStringPromise(data.data);
+      } else {
+        throw new Error(`Get location info failed: ${data.response.statusCode} ${data.response.statusMessage}`);
+      }
+    } catch (err) {
+      throw err;
+    }
+  }
+
   async get(cmd) {
     let data;
     this._logger('GET', cmd);
@@ -61,12 +82,13 @@ module.exports = class SamsungWAMApi {
     }
   }
 
-  async getState() {
+  async getState(onOffCapability) {
+    const powerStatus = onOffCapability ? await this.getPowerStatus() : undefined;
     return {
-      volume: await this.getVolume(),
-      muted: await this.getMuted(),
-      func: await this.getFunc(),
-      //version: await this.getSoftwareVersion()
+      powerStatus: powerStatus,
+      volume: powerStatus !== false ? await this.getVolume() : undefined,
+      muted: powerStatus !== false ? await this.getMuted() : undefined,
+      func: powerStatus !== false ? await this.getFunc() : undefined
     }
   }
 
@@ -77,7 +99,7 @@ module.exports = class SamsungWAMApi {
 
   async getPowerStatus() {
     const powerStatus = await this.get('<pwron>on</pwron><name>GetPowerStatus</name>');
-    return powerStatus;
+    return powerStatus.UIC.response[0].powerStatus[0] !== '0';
   }
 
   async setPowerStatus(state) {

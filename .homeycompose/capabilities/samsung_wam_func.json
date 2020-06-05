@@ -51,6 +51,12 @@
       }
     },
     {
+      "id": "usb",
+      "title": {
+        "en": "USB"
+      }
+    },
+    {
       "id": "soundshare",
       "title": {
         "en": "Soundshare"

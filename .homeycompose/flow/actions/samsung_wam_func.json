@@ -17,57 +17,10 @@
       "label": {
         "en": "Input source"
       },
-      "type": "dropdown",
-      "values": [
-        {
-          "id": "optical",
-          "label": {
-            "en": "D.IN"
-          }
-        },
-        {
-          "id": "aux",
-          "label": {
-            "en": "Aux"
-          }
-        },
-        {
-          "id": "hdmi",
-          "label": {
-            "en": "HDMI"
-          }
-        },
-        {
-          "id": "hdmi1",
-          "label": {
-            "en": "HDMI1"
-          }
-        },
-        {
-          "id": "hdmi2",
-          "label": {
-            "en": "HDMI2"
-          }
-        },
-        {
-          "id": "bt",
-          "label": {
-            "en": "BT"
-          }
-        },
-        {
-          "id": "wifi",
-          "label": {
-            "en": "Wifi"
-          }
-        },
-        {
-          "id": "soundshare",
-          "label": {
-            "en": "Soundshare"
-          }
-        }
-      ]
+      "type": "autocomplete",
+      "placeholder": {
+        "en": "Input source..."
+      }
     }
   ]
 }
