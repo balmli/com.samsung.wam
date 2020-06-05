@@ -31,11 +31,15 @@ Use this app to control your Samsung soundbar.
 
 Please report issues at the [issues section on Github](https://github.com/balmli/com.samsung.wam/issues).
 
-## Disclaimer
+## Disclaimer:
 
 Use at your own risk. I accept no responsibility for any damages caused by using this app.
 
 ## Release Notes:
+
+#### 0.9.2
+
+- Minor fixes
 
 #### 0.9.1
 
