@@ -1,6 +1,6 @@
 {
   "id": "com.samsung.wam",
-  "version": "0.9.4",
+  "version": "0.9.5",
   "compatibility": ">=2.0.0",
   "sdk": 2,
   "brandColor": "#206ADF",
@@ -496,7 +496,7 @@
     "samsung_wam": {
       "type": "ssdp",
       "ssdp": {
-        "search": "urn:dial-multiscreen-org:device:dialreceiver:1"
+        "search": "urn:dial-multiscreen-org:service:dial:1"
       },
       "id": "{{headers.usn}}",
       "conditions": [
@@ -505,7 +505,7 @@
             "field": "headers.st",
             "match": {
               "type": "string",
-              "value": "urn:dial-multiscreen-org:device:dialreceiver:1"
+              "value": "urn:dial-multiscreen-org:service:dial:1"
             }
           }
         ]

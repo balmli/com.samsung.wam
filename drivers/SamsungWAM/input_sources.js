@@ -76,6 +76,7 @@ const MODEL_TO_LIST_MAP = {
   'HW-R550': 3,
 
   'HW-N850': 4,
+  'HW-N960': 4,
   'HW-Q80R': 4,
   'HW-Q86R': 4,
   'HW-Q90R': 4,

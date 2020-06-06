@@ -37,6 +37,10 @@ Use at your own risk. I accept no responsibility for any damages caused by using
 
 ## Release Notes:
 
+#### 0.9.5
+
+- Minor changes to discovery
+
 #### 0.9.4
 
 - Input sources for more models
