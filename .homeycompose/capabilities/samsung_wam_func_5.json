@@ -1,0 +1,56 @@
+{
+  "type": "enum",
+  "uiComponent": "picker",
+  "title": {
+    "en": "Input source"
+  },
+  "desc": {
+    "en": "Input source"
+  },
+  "values": [
+    {
+      "id": "optical",
+      "title": {
+        "en": "D.IN"
+      }
+    },
+    {
+      "id": "aux",
+      "title": {
+        "en": "Aux"
+      }
+    },
+    {
+      "id": "hdmi",
+      "title": {
+        "en": "HDMI"
+      }
+    },
+    {
+      "id": "bt",
+      "title": {
+        "en": "BT"
+      }
+    },
+    {
+      "id": "wifi",
+      "title": {
+        "en": "Wifi"
+      }
+    },
+    {
+      "id": "usb",
+      "title": {
+        "en": "USB"
+      }
+    },
+    {
+      "id": "soundshare",
+      "title": {
+        "en": "Soundshare"
+      }
+    }
+  ],
+  "getable": true,
+  "setable": true
+}

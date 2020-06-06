@@ -1,6 +1,6 @@
 {
   "id": "com.samsung.wam",
-  "version": "0.9.2",
+  "version": "0.9.3",
   "compatibility": ">=2.0.0",
   "sdk": 2,
   "brandColor": "#206ADF",
@@ -122,7 +122,12 @@
         "volume_up",
         "volume_down",
         "volume_mute",
-        "samsung_wam_func"
+        "samsung_wam_func_0",
+        "samsung_wam_func_1",
+        "samsung_wam_func_2",
+        "samsung_wam_func_3",
+        "samsung_wam_func_4",
+        "samsung_wam_func_5"
       ],
       "capabilitiesOptions": {},
       "discovery": "samsung_wam",
@@ -186,7 +191,7 @@
     }
   ],
   "capabilities": {
-    "samsung_wam_func": {
+    "samsung_wam_func_0": {
       "type": "enum",
       "uiComponent": "picker",
       "title": {
@@ -224,6 +229,238 @@
           "id": "hdmi2",
           "title": {
             "en": "HDMI2"
+          }
+        },
+        {
+          "id": "bt",
+          "title": {
+            "en": "BT"
+          }
+        },
+        {
+          "id": "wifi",
+          "title": {
+            "en": "Wifi"
+          }
+        },
+        {
+          "id": "usb",
+          "title": {
+            "en": "USB"
+          }
+        },
+        {
+          "id": "soundshare",
+          "title": {
+            "en": "Soundshare"
+          }
+        }
+      ],
+      "getable": true,
+      "setable": true
+    },
+    "samsung_wam_func_1": {
+      "type": "enum",
+      "uiComponent": "picker",
+      "title": {
+        "en": "Input source"
+      },
+      "desc": {
+        "en": "Input source"
+      },
+      "values": [
+        {
+          "id": "optical",
+          "title": {
+            "en": "D.IN"
+          }
+        },
+        {
+          "id": "aux",
+          "title": {
+            "en": "Aux"
+          }
+        },
+        {
+          "id": "hdmi",
+          "title": {
+            "en": "HDMI"
+          }
+        },
+        {
+          "id": "bt",
+          "title": {
+            "en": "BT"
+          }
+        },
+        {
+          "id": "wifi",
+          "title": {
+            "en": "Wifi"
+          }
+        }
+      ],
+      "getable": true,
+      "setable": true
+    },
+    "samsung_wam_func_2": {
+      "type": "enum",
+      "uiComponent": "picker",
+      "title": {
+        "en": "Input source"
+      },
+      "desc": {
+        "en": "Input source"
+      },
+      "values": [
+        {
+          "id": "optical",
+          "title": {
+            "en": "D.IN"
+          }
+        },
+        {
+          "id": "aux",
+          "title": {
+            "en": "Aux"
+          }
+        },
+        {
+          "id": "hdmi1",
+          "title": {
+            "en": "HDMI1"
+          }
+        },
+        {
+          "id": "hdmi2",
+          "title": {
+            "en": "HDMI2"
+          }
+        },
+        {
+          "id": "bt",
+          "title": {
+            "en": "BT"
+          }
+        },
+        {
+          "id": "wifi",
+          "title": {
+            "en": "Wifi"
+          }
+        }
+      ],
+      "getable": true,
+      "setable": true
+    },
+    "samsung_wam_func_3": {
+      "type": "enum",
+      "uiComponent": "picker",
+      "title": {
+        "en": "Input source"
+      },
+      "desc": {
+        "en": "Input source"
+      },
+      "values": [
+        {
+          "id": "optical",
+          "title": {
+            "en": "D.IN"
+          }
+        },
+        {
+          "id": "hdmi",
+          "title": {
+            "en": "HDMI"
+          }
+        },
+        {
+          "id": "bt",
+          "title": {
+            "en": "BT"
+          }
+        },
+        {
+          "id": "wifi",
+          "title": {
+            "en": "Wifi"
+          }
+        }
+      ],
+      "getable": true,
+      "setable": true
+    },
+    "samsung_wam_func_4": {
+      "type": "enum",
+      "uiComponent": "picker",
+      "title": {
+        "en": "Input source"
+      },
+      "desc": {
+        "en": "Input source"
+      },
+      "values": [
+        {
+          "id": "optical",
+          "title": {
+            "en": "D.IN"
+          }
+        },
+        {
+          "id": "hdmi1",
+          "title": {
+            "en": "HDMI1"
+          }
+        },
+        {
+          "id": "hdmi2",
+          "title": {
+            "en": "HDMI2"
+          }
+        },
+        {
+          "id": "bt",
+          "title": {
+            "en": "BT"
+          }
+        },
+        {
+          "id": "wifi",
+          "title": {
+            "en": "Wifi"
+          }
+        }
+      ],
+      "getable": true,
+      "setable": true
+    },
+    "samsung_wam_func_5": {
+      "type": "enum",
+      "uiComponent": "picker",
+      "title": {
+        "en": "Input source"
+      },
+      "desc": {
+        "en": "Input source"
+      },
+      "values": [
+        {
+          "id": "optical",
+          "title": {
+            "en": "D.IN"
+          }
+        },
+        {
+          "id": "aux",
+          "title": {
+            "en": "Aux"
+          }
+        },
+        {
+          "id": "hdmi",
+          "title": {
+            "en": "HDMI"
           }
         },
         {

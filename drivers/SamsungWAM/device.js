@@ -2,6 +2,7 @@
 
 const Homey = require('homey');
 const SamsungWAMApi = require('./samsung_wam_api');
+const { MODEL_TO_LIST_MAP, LIST_MAP } = require('./input_sources');
 
 module.exports = class SamsungWAMDevice extends Homey.Device {
 
@@ -15,12 +16,35 @@ module.exports = class SamsungWAMDevice extends Homey.Device {
       api_timeout: 2000
     });
 
+    let inputSourceNo = MODEL_TO_LIST_MAP[this.getData().modelName] ?
+      MODEL_TO_LIST_MAP[this.getData().modelName] : 0;
+    this._inputSourceCapability = `samsung_wam_func_${inputSourceNo}`;
+
+    let curInputSourceNo = this.getStoreValue('inputSourceNo');
+    if (curInputSourceNo === null || curInputSourceNo === undefined || curInputSourceNo !== inputSourceNo) {
+      for (let i = 0; i <= 5; i++) {
+        const capability = `samsung_wam_func_${i}`;
+        if (i !== inputSourceNo && this.hasCapability(capability)) {
+          try {
+            await this.removeCapability(capability);
+          } catch (err) {
+            this.log(`removeCapability ERROR: ${capability}`, err);
+          }
+        }
+      }
+      if (!this.hasCapability(this._inputSourceCapability)) {
+        await this.addCapability(this._inputSourceCapability);
+      }
+      await this.setStoreValue('inputSourceNo', inputSourceNo);
+      this.log('updated inputSourceNo', inputSourceNo, this._inputSourceCapability);
+    }
+
     this.registerCapabilityListener('onoff', value => this.onSetPowerStatus(value));
     this.registerCapabilityListener('volume_set', value => this.onSetVolume(value));
     this.registerCapabilityListener('volume_mute', () => this.onVolumeMute());
     this.registerCapabilityListener('volume_up', value => this.onVolumeUp());
     this.registerCapabilityListener('volume_down', value => this.onVolumeDown());
-    this.registerCapabilityListener('samsung_wam_func', value => this.onSetInputSource(value));
+    this.registerCapabilityListener(this._inputSourceCapability, value => this.onSetInputSource(value));
 
     this.addFetchTimeout(1);
     this.log('device initialized', this.getData());
@@ -95,7 +119,7 @@ module.exports = class SamsungWAMDevice extends Homey.Device {
         if (!this.getData().onOff || this.getData().onOff && state.powerStatus) {
           this.setCapabilityValue('volume_set', state.volume / this.getSetting('max_volume')).catch(err => this.log(err));
           this.setCapabilityValue('volume_mute', state.muted).catch(err => this.log(err));
-          this.setCapabilityValue('samsung_wam_func', state.func).catch(err => this.log(err));
+          this.setCapabilityValue(this._inputSourceCapability, state.func).catch(err => this.log(err));
         }
       }
     } catch (err) {
@@ -159,7 +183,7 @@ module.exports = class SamsungWAMDevice extends Homey.Device {
     try {
       this.clearFetchTimeout();
       if (await this._api.setFunc(inputSource) && setCap) {
-        this.setCapabilityValue('samsung_wam_func', inputSource).catch(err => this.log(err));
+        this.setCapabilityValue(this._inputSourceCapability, inputSource).catch(err => this.log(err));
       }
     } finally {
       this.addFetchTimeout();
@@ -175,56 +199,8 @@ module.exports = class SamsungWAMDevice extends Homey.Device {
   }
 
   async onInputSourceAutocomplete(query, args) {
-    let inputSources;
-    switch (this.getData().modelName) {
-      case 'HW-MS650':
-      case 'HW-MS6500':
-        inputSources = [
-          { id: "optical", name: "D.IN" },
-          { id: "aux", name: "Aux" },
-          { id: "hdmi", name: "HDMI" },
-          { id: "bt", name: "BT" },
-          { id: "wifi", name: "Wifi" },
-        ];
-        break;
+    const inputSources = LIST_MAP[`LIST_${this.getStoreValue('inputSourceNo')}`];
 
-      case 'HW-K950':
-      case 'HW-MS750':
-      case 'HW-MS7500':
-        inputSources = [
-          { id: "optical", name: "D.IN" },
-          { id: "aux", name: "Aux" },
-          { id: "hdmi1", name: "HDMI1" },
-          { id: "hdmi2", name: "HDMI2" },
-          { id: "bt", name: "BT" },
-          { id: "wifi", name: "Wifi" },
-        ];
-        break;
-
-      case 'HW-H750':
-      case 'HW-J650':
-      case 'HW-J7500':
-      case 'HW-J8500':
-      case 'HW-K650':
-        inputSources = [
-          { id: "optical", name: "D.IN" },
-          { id: "aux", name: "Aux" },
-          { id: "hdmi", name: "HDMI" },
-          { id: "bt", name: "BT" },
-          { id: "wifi", name: "Wifi" },
-          { id: "usb", name: "USB" },
-          { id: "soundshare", name: "Soundshare" },
-        ];
-        break;
-
-      default:
-        inputSources = [
-          { id: "bt", name: "BT" },
-          { id: "wifi", name: "Wifi" },
-          { id: "soundshare", name: "Soundshare" }
-        ];
-        break;
-    }
     return Promise.resolve((inputSources).map(is => {
       return {
         id: is.id,
