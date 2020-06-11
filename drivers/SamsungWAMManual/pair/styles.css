@@ -1,0 +1,32 @@
+.header {
+  padding-top: 70px;
+}
+
+.logo {
+  width: 100px
+}
+
+.grid_center {
+  text-align: center;
+}
+
+.input_model {
+  text-align: center;
+  font-size: 20pt;
+}
+
+.input_ip {
+  text-align: center;
+  font-size: 20pt;
+}
+
+.input_port {
+  text-align: center;
+  font-size: 20pt;
+}
+
+.exec_button {
+  min-width: 100%;
+  background-color: #00c341;
+  color: white;
+}

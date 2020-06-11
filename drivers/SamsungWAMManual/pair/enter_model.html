@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="material.min.css">
+  <link rel="stylesheet" href="mdl-selectfield.min.css">
+  <link rel="stylesheet" href="styles.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<div class="mdl-grid header">
+  <div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-phone grid_center">
+    <img class="logo" src="samsung.png" alt="Samsung"/>
+  </div>
+</div>
+<div class="mdl-grid">
+  <div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-phone">
+    <span data-i18n="pair.ip_help"></span>
+  </div>
+</div>
+<div class="mdl-grid">
+  <div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-phone">
+    <small data-i18n="pair.modelname_label"></small>
+    <div class="mdl-selectfield mdl-js-selectfield">
+      <select id="modelname" name="modelname" class="mdl-selectfield__select">
+        <option value="HW-H750">HW-H750</option>
+        <option value="HW-J650">HW-J650</option>
+        <option value="HW-J7500">HW-J7500</option>
+        <option value="HW-J8500">HW-J8500</option>
+        <option value="HW-K650">HW-K650</option>
+        <option value="HW-K860">HW-K860</option>
+        <option value="HW-K950">HW-K950</option>
+        <option value="HW-K960">HW-K960</option>
+        <option value="HW-MS560">HW-MS560</option>
+        <option value="HW-MS650">HW-MS650</option>
+        <option value="HW-MS6500">HW-MS6500</option>
+        <option value="HW-MS660">HW-MS660</option>
+        <option value="HW-MS661">HW-MS661</option>
+        <option value="HW-MS750">HW-MS750</option>
+        <option value="HW-MS7500">HW-MS7500</option>
+        <option value="HW-MS760">HW-MS760</option>
+        <option value="HW-MS761">HW-MS761</option>
+        <option value="HW-N400">HW-N400</option>
+        <option value="HW-N850">HW-N850</option>
+        <option value="HW-N950">HW-N950</option>
+        <option value="HW-N960">HW-N960</option>
+        <option value="HW-Q70R">HW-Q70R</option>
+        <option value="HW-Q76R">HW-Q76R</option>
+        <option value="HW-Q800T">HW-Q800T</option>
+        <option value="HW-Q80R">HW-Q80R</option>
+        <option value="HW-Q86R">HW-Q86R</option>
+        <option value="HW-Q90R">HW-Q90R</option>
+        <option value="HW-Q96R">HW-Q96R</option>
+        <option value="HW-R550">HW-R550</option>
+        <option value="SPK-WAM550">SPK-WAM550</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-phone">
+    <small data-i18n="pair.ip_label"></small>
+    <div class="mdl-textfield mdl-js-textfield">
+      <input class="mdl-textfield__input input_ip"
+             type="text"
+             pattern="^(?!0)(?!.*\.$)((1?\d?\d|25[0-5]|2[0-4]\d)(\.|$)){4}$"
+             id="ip"
+             maxlength="255">
+      <span class="mdl-textfield__error" data-i18n="pair.valid_ip"></span>
+    </div>
+  </div>
+
+  <div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-phone">
+    <small data-i18n="pair.port_label"></small>
+    <div class="mdl-selectfield mdl-js-selectfield">
+      <select id="port" name="port" class="mdl-selectfield__select">
+        <option value="55001">55001</option>
+        <option value="56001">56001</option>
+      </select>
+    </div>
+  </div>
+
+</div>
+<div class="mdl-grid">
+  <div class="mdl-cell mdl-cell--4-col mdl-cell--4-col-phone grid_center">
+    <button class="exec_button mdl-button mdl-js-button mdl-button--raised" id="next1"
+            data-i18n="pair.search_btn" style="color: white; background-color: #00c341;">
+      <i class="material-icons">search</i>
+    </button>
+  </div>
+</div>
+
+<script type="text/javascript">
+    Homey.setTitle(Homey.__('pair.title'));
+
+    document.getElementById('next1').onclick = (e) => {
+        e.preventDefault();
+        Homey.showLoadingOverlay();
+        const modelName = document.getElementById("modelname").value;
+        const ipaddress = document.getElementById("ip").value;
+        const port = document.getElementById("port").value;
+
+        Homey.emit('model_input', {
+            modelName: modelName,
+            ipaddress: ipaddress,
+            port: port
+        }, (err, result) => {
+            Homey.hideLoadingOverlay();
+            if (err) {
+                Homey.alert(Homey.__('pair.search_failed'), 'error', () => {
+                });
+            } else if (result) {
+
+                const newDevice = {
+                    name: result.speakerName,
+                    data: {
+                        id: result.id,
+                        modelName: modelName,
+                        networkType: result.networkType,
+                        onOff: result.onOff
+                    },
+                    store: {
+                        ipaddress: ipaddress,
+                        port: port
+                    }
+                };
+
+                Homey.setViewStoreValue('add_my_device', 'devices', [newDevice], (err, data) => {
+                    Homey.showView('add_my_device');
+                });
+            }
+        });
+    };
+
+</script>
+<script src="material.min.js"></script>
+<script src="mdl-selectfield.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+{
+  "icon": "{{driverAssetsPath}}/icon.svg",
+  "images": {
+    "large": "{{driverAssetsPath}}/images/large.png",
+    "small": "{{driverAssetsPath}}/images/small.png"
+  },
+  "class": "amplifier",
+  "capabilities": [
+    "onoff",
+    "volume_set",
+    "volume_up",
+    "volume_down",
+    "volume_mute",
+    "samsung_wam_func_0",
+    "samsung_wam_func_1",
+    "samsung_wam_func_2",
+    "samsung_wam_func_3",
+    "samsung_wam_func_4",
+    "samsung_wam_func_5"
+  ]
+}

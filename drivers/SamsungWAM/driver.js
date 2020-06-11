@@ -1,7 +1,7 @@
 'use strict';
 
 const Homey = require('homey');
-const SamsungWAMApi = require('./samsung_wam_api');
+const SamsungWAMApi = require('../../lib/samsung_wam_api');
 
 module.exports = class SamsungWAMDriver extends Homey.Driver {
 
@@ -37,30 +37,48 @@ module.exports = class SamsungWAMDriver extends Homey.Driver {
 
       if (deviceInfo) {
 
-        const locationInfo = await samsungWAMApi.getLocationInfo();
-
-        let onOff = false;
-        try {
-          await samsungWAMApi.setPowerStatus(true);
-          onOff = true;
-        } catch (err) {
-          this.log(`On / off is not supported for ${discoveryResult.address}`);
+        const ports = [55001, 56001];
+        let port;
+        for (let idx = 0; idx < ports.length; idx++) {
+          try {
+            port = ports[idx];
+            samsungWAMApi.updatePort(port);
+            const softwareVersion = await samsungWAMApi.getSoftwareVersion();
+            this.log(`Found device on: ${discoveryResult.address}:${port}`);
+            break;
+          } catch (err) {
+            port = null;
+            this.log(`No response from: ${discoveryResult.address}:${port}`, err);
+          }
         }
 
-        devices.push({
-          name: deviceInfo.name,
-          data: {
-            id: discoveryResult.id,
-            type: deviceInfo.device.type,
-            modelName: locationInfo.root.device[0].modelName[0],
-            networkType: deviceInfo.device.networkType,
-            onOff: onOff
-          },
-          store: {
-            ipaddress: discoveryResult.address,
-            location: discoveryResult.headers.location
+        if (port) {
+          const locationInfo = await samsungWAMApi.getLocationInfo();
+
+          let onOff = false;
+          try {
+            await samsungWAMApi.setPowerStatus(true);
+            onOff = true;
+          } catch (err) {
+            this.log(`On / off is not supported for ${discoveryResult.address}`);
           }
-        });
+
+          devices.push({
+            name: deviceInfo.name,
+            data: {
+              id: discoveryResult.id,
+              type: deviceInfo.device.type,
+              modelName: locationInfo.root.device[0].modelName[0],
+              networkType: deviceInfo.device.networkType,
+              onOff: onOff
+            },
+            store: {
+              ipaddress: discoveryResult.address,
+              port: port,
+              location: discoveryResult.headers.location
+            }
+          });
+        }
       }
     }
 

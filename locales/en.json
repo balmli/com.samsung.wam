@@ -1,2 +1,13 @@
 {
+  "pair": {
+    "title": "Samsung Wireless Audio Multiroom",
+    "ip_help": "Select model name, enter IP address and select port number for your speakers.",
+    "modelname_label": "MODEL NAME",
+    "ip_label": "IP ADDRESS",
+    "valid_ip": "Enter a valid IP address",
+    "port_label": "PORT",
+    "search_btn": "Search",
+    "add_btn": "Add",
+    "search_failed": "Unable to find a soundbar or speakers on the selected IP address and port number."
+  }
 }

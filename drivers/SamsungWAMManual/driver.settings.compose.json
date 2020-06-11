@@ -1,0 +1,26 @@
+[
+  {
+    "type": "group",
+    "label": {
+      "en": "General settings"
+    },
+    "children": [
+      {
+        "$extends": "poll_interval",
+        "id": "poll_interval"
+      }
+    ]
+  },
+  {
+    "type": "group",
+    "label": {
+      "en": "Audio settings"
+    },
+    "children": [
+      {
+        "$extends": "max_volume",
+        "id": "max_volume"
+      }
+    ]
+  }
+]

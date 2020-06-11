@@ -1,0 +1,20 @@
+{
+  "id": "SamsungWAMManual",
+  "name": {
+    "en": "Samsung WAM manual"
+  },
+  "$extends": [
+    "defaults"
+  ],
+  "capabilitiesOptions": {
+  },
+  "pair": [
+    {
+      "id": "enter_model"
+    },
+    {
+      "id": "add_my_device",
+      "template": "add_devices"
+    }
+  ]
+}

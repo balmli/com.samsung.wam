@@ -1,72 +1,14 @@
 'use strict';
 
-const Homey = require('homey');
-const SamsungWAMApi = require('./samsung_wam_api');
-const { MODEL_TO_LIST_MAP, LIST_MAP } = require('./input_sources');
+const SamsungDevice = require('../../lib/SamsungDevice');
 
-module.exports = class SamsungWAMDevice extends Homey.Device {
-
-  async onInit() {
-    this._api = new SamsungWAMApi({
-      device: this,
-      logger: this.log,
-      onUpdateValues: this.onUpdateValues,
-      ip_address: this.getStoreValue('ipaddress'),
-      location: this.getStoreValue('location'),
-      api_timeout: 2000
-    });
-
-    let inputSourceNo = MODEL_TO_LIST_MAP[this.getData().modelName] ?
-      MODEL_TO_LIST_MAP[this.getData().modelName] : 0;
-    this._inputSourceCapability = `samsung_wam_func_${inputSourceNo}`;
-
-    let curInputSourceNo = this.getStoreValue('inputSourceNo');
-    if (curInputSourceNo === null || curInputSourceNo === undefined || curInputSourceNo !== inputSourceNo) {
-      for (let i = 0; i <= 5; i++) {
-        const capability = `samsung_wam_func_${i}`;
-        if (i !== inputSourceNo && this.hasCapability(capability)) {
-          try {
-            await this.removeCapability(capability);
-          } catch (err) {
-            this.log(`removeCapability ERROR: ${capability}`, err);
-          }
-        }
-      }
-      if (!this.hasCapability(this._inputSourceCapability)) {
-        await this.addCapability(this._inputSourceCapability);
-      }
-      await this.setStoreValue('inputSourceNo', inputSourceNo);
-      this.log('updated inputSourceNo', inputSourceNo, this._inputSourceCapability);
-    }
-
-    this.registerCapabilityListener('onoff', value => this.onSetPowerStatus(value));
-    this.registerCapabilityListener('volume_set', value => this.onSetVolume(value));
-    this.registerCapabilityListener('volume_mute', () => this.onVolumeMute());
-    this.registerCapabilityListener('volume_up', value => this.onVolumeUp());
-    this.registerCapabilityListener('volume_down', value => this.onVolumeDown());
-    this.registerCapabilityListener(this._inputSourceCapability, value => this.onSetInputSource(value));
-
-    this.addFetchTimeout(1);
-    this.log('device initialized', this.getData());
-  }
+module.exports = class SamsungWAMDevice extends SamsungDevice {
 
   async updateDiscovery(discoveryResult) {
     this._api.updateIpAddress(discoveryResult.address);
     await this.setStoreValue('ipaddress', discoveryResult.address);
     this._api.updateLocation(discoveryResult.headers.location);
     await this.setStoreValue('location', discoveryResult.headers.location);
-  }
-
-  onAdded() {
-    this.log('device added', this.getData());
-    if (!this.getData().onOff) {
-      this.setCapabilityValue('onoff', true).catch(err => this.log(err));
-    }
-  }
-
-  onDeleted() {
-    this.clearFetchTimeout();
-    this.log('device deleted');
   }
 
   onDiscoveryResult(discoveryResult) {
@@ -82,133 +24,6 @@ module.exports = class SamsungWAMDevice extends Homey.Device {
   onDiscoveryAddressChanged(discoveryResult) {
     this.log('onDiscoveryAddressChanged', discoveryResult);
     this.updateDiscovery(discoveryResult);
-  }
-
-  async onSettings(oldSettingsObj, newSettingsObj, changedKeysArr, callback) {
-    if (changedKeysArr.includes('poll_interval')) {
-      this.addFetchTimeout();
-    }
-
-    callback(null, true);
-  }
-
-  async addFetchTimeout(seconds) {
-    this.clearFetchTimeout();
-    let interval = seconds;
-    if (!interval) {
-      interval = this.getSetting('poll_interval') || 30;
-    }
-    this.fetchTimeout = setTimeout(() => this.fetchState(), 1000 * interval);
-  }
-
-  clearFetchTimeout() {
-    if (this.fetchTimeout) {
-      clearTimeout(this.fetchTimeout);
-      this.fetchTimeout = undefined;
-    }
-  }
-
-  async fetchState() {
-    try {
-      if (this.getCapabilityValue('onoff') || this.getData().onOff) {
-        const state = await this._api.getState(this.getData().onOff);
-        this.log('state', state);
-        if (this.getData().onOff) {
-          this.setCapabilityValue('onoff', state.powerStatus).catch(err => this.log(err));
-        }
-        if (!this.getData().onOff || this.getData().onOff && state.powerStatus) {
-          this.setCapabilityValue('volume_set', state.volume / this.getSetting('max_volume')).catch(err => this.log(err));
-          this.setCapabilityValue('volume_mute', state.muted).catch(err => this.log(err));
-          this.setCapabilityValue(this._inputSourceCapability, state.func).catch(err => this.log(err));
-        }
-      }
-    } catch (err) {
-      this.log('fetchState error', err);
-    } finally {
-      this.addFetchTimeout();
-    }
-  }
-
-  onUpdateValues(device) {
-  }
-
-  async onSetPowerStatus(value) {
-    if (this.getData().onOff) {
-      try {
-        this.clearFetchTimeout();
-        return this._api.setPowerStatus(value);
-      } finally {
-        this.addFetchTimeout();
-      }
-    }
-  }
-
-  async onSetVolume(value) {
-    try {
-      this.clearFetchTimeout();
-      return this._api.setVolume(Math.round(value * this.getSetting('max_volume')));
-    } finally {
-      this.addFetchTimeout();
-    }
-  }
-
-  async onVolumeMute() {
-    try {
-      this.clearFetchTimeout();
-      return this._api.volumeMute();
-    } finally {
-      this.addFetchTimeout();
-    }
-  }
-
-  async onVolumeUp() {
-    try {
-      this.clearFetchTimeout();
-      return this._api.volumeUp();
-    } finally {
-      this.addFetchTimeout();
-    }
-  }
-
-  async onVolumeDown() {
-    try {
-      this.clearFetchTimeout();
-      return this._api.volumeDown();
-    } finally {
-      this.addFetchTimeout();
-    }
-  }
-
-  async onSetInputSource(inputSource, setCap) {
-    try {
-      this.clearFetchTimeout();
-      if (await this._api.setFunc(inputSource) && setCap) {
-        this.setCapabilityValue(this._inputSourceCapability, inputSource).catch(err => this.log(err));
-      }
-    } finally {
-      this.addFetchTimeout();
-    }
-  }
-
-  async setUrlPlayback(url) {
-    try {
-      return this._api.setUrlPlayback(url)
-    } catch (err) {
-      this.log('setUrlPlayback error', err);
-    }
-  }
-
-  async onInputSourceAutocomplete(query, args) {
-    const inputSources = LIST_MAP[`LIST_${this.getStoreValue('inputSourceNo')}`];
-
-    return Promise.resolve((inputSources).map(is => {
-      return {
-        id: is.id,
-        name: is.name
-      };
-    }).filter(result => {
-      return result.name.toLowerCase().indexOf(query.toLowerCase()) > -1;
-    }));
   }
 
 };

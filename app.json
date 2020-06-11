@@ -1,6 +1,6 @@
 {
   "id": "com.samsung.wam",
-  "version": "0.9.5",
+  "version": "0.9.6",
   "compatibility": ">=2.0.0",
   "sdk": 2,
   "brandColor": "#206ADF",
@@ -106,10 +106,6 @@
   },
   "drivers": [
     {
-      "id": "SamsungWAM",
-      "name": {
-        "en": "Samsung Wireless Audio Multiroom"
-      },
       "icon": "/drivers/SamsungWAM/assets/icon.svg",
       "images": {
         "large": "/drivers/SamsungWAM/assets/images/large.png",
@@ -129,6 +125,10 @@
         "samsung_wam_func_4",
         "samsung_wam_func_5"
       ],
+      "id": "SamsungWAM",
+      "name": {
+        "en": "Samsung WAM"
+      },
       "capabilitiesOptions": {},
       "discovery": "samsung_wam",
       "pair": [
@@ -141,6 +141,85 @@
         },
         {
           "id": "add_my_devices",
+          "template": "add_devices"
+        }
+      ],
+      "settings": [
+        {
+          "type": "group",
+          "label": {
+            "en": "General settings"
+          },
+          "children": [
+            {
+              "id": "poll_interval",
+              "type": "number",
+              "label": {
+                "en": "Polling interval"
+              },
+              "value": 10,
+              "min": 10,
+              "max:": 1000,
+              "hint": {
+                "en": "Polling interval (seconds)"
+              }
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Audio settings"
+          },
+          "children": [
+            {
+              "id": "max_volume",
+              "type": "number",
+              "label": {
+                "en": "Max volume"
+              },
+              "value": 30,
+              "min": 1,
+              "max:": 100,
+              "hint": {
+                "en": "Max. volume level"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "icon": "/drivers/SamsungWAMManual/assets/icon.svg",
+      "images": {
+        "large": "/drivers/SamsungWAMManual/assets/images/large.png",
+        "small": "/drivers/SamsungWAMManual/assets/images/small.png"
+      },
+      "class": "amplifier",
+      "capabilities": [
+        "onoff",
+        "volume_set",
+        "volume_up",
+        "volume_down",
+        "volume_mute",
+        "samsung_wam_func_0",
+        "samsung_wam_func_1",
+        "samsung_wam_func_2",
+        "samsung_wam_func_3",
+        "samsung_wam_func_4",
+        "samsung_wam_func_5"
+      ],
+      "id": "SamsungWAMManual",
+      "name": {
+        "en": "Samsung WAM manual"
+      },
+      "capabilitiesOptions": {},
+      "pair": [
+        {
+          "id": "enter_model"
+        },
+        {
+          "id": "add_my_device",
           "template": "add_devices"
         }
       ],
