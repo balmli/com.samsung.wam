@@ -37,6 +37,10 @@ Use at your own risk. I accept no responsibility for any damages caused by using
 
 ## Release Notes:
 
+#### 0.9.7
+
+- Input sources for more models
+
 #### 0.9.6
 
 - Devices can be added manually

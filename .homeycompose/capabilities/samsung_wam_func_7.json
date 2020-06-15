@@ -1,0 +1,38 @@
+{
+  "type": "enum",
+  "uiComponent": "picker",
+  "title": {
+    "en": "Input source"
+  },
+  "desc": {
+    "en": "Input source"
+  },
+  "values": [
+    {
+      "id": "aux",
+      "title": {
+        "en": "Aux"
+      }
+    },
+    {
+      "id": "bt",
+      "title": {
+        "en": "BT"
+      }
+    },
+    {
+      "id": "wifi",
+      "title": {
+        "en": "Wifi"
+      }
+    },
+    {
+      "id": "soundshare",
+      "title": {
+        "en": "Soundshare"
+      }
+    }
+  ],
+  "getable": true,
+  "setable": true
+}

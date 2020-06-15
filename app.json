@@ -1,6 +1,6 @@
 {
   "id": "com.samsung.wam",
-  "version": "0.9.6",
+  "version": "0.9.7",
   "compatibility": ">=2.0.0",
   "sdk": 2,
   "brandColor": "#206ADF",
@@ -558,6 +558,76 @@
           "id": "usb",
           "title": {
             "en": "USB"
+          }
+        },
+        {
+          "id": "soundshare",
+          "title": {
+            "en": "Soundshare"
+          }
+        }
+      ],
+      "getable": true,
+      "setable": true
+    },
+    "samsung_wam_func_6": {
+      "type": "enum",
+      "uiComponent": "picker",
+      "title": {
+        "en": "Input source"
+      },
+      "desc": {
+        "en": "Input source"
+      },
+      "values": [
+        {
+          "id": "bt",
+          "title": {
+            "en": "BT"
+          }
+        },
+        {
+          "id": "wifi",
+          "title": {
+            "en": "Wifi"
+          }
+        },
+        {
+          "id": "soundshare",
+          "title": {
+            "en": "Soundshare"
+          }
+        }
+      ],
+      "getable": true,
+      "setable": true
+    },
+    "samsung_wam_func_7": {
+      "type": "enum",
+      "uiComponent": "picker",
+      "title": {
+        "en": "Input source"
+      },
+      "desc": {
+        "en": "Input source"
+      },
+      "values": [
+        {
+          "id": "aux",
+          "title": {
+            "en": "Aux"
+          }
+        },
+        {
+          "id": "bt",
+          "title": {
+            "en": "BT"
+          }
+        },
+        {
+          "id": "wifi",
+          "title": {
+            "en": "Wifi"
           }
         },
         {
