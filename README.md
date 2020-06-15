@@ -40,6 +40,7 @@ Use at your own risk. I accept no responsibility for any damages caused by using
 #### 0.9.7
 
 - Input sources for more models
+- Support power on / off
 
 #### 0.9.6
 
