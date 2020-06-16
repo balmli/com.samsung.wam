@@ -4,7 +4,7 @@
     "large": "{{driverAssetsPath}}/images/large.png",
     "small": "{{driverAssetsPath}}/images/small.png"
   },
-  "class": "amplifier",
+  "class": "speaker",
   "capabilities": [
     "onoff",
     "volume_set",

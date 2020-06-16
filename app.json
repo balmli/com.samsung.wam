@@ -111,7 +111,7 @@
         "large": "/drivers/SamsungWAM/assets/images/large.png",
         "small": "/drivers/SamsungWAM/assets/images/small.png"
       },
-      "class": "amplifier",
+      "class": "speaker",
       "capabilities": [
         "onoff",
         "volume_set",
@@ -195,7 +195,7 @@
         "large": "/drivers/SamsungWAMManual/assets/images/large.png",
         "small": "/drivers/SamsungWAMManual/assets/images/small.png"
       },
-      "class": "amplifier",
+      "class": "speaker",
       "capabilities": [
         "onoff",
         "volume_set",
