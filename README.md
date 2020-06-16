@@ -2,7 +2,7 @@
 
 Use this app to control your Samsung soundbar.
 
-## Device: Samsung Wireless Audio Multiroom
+## Device: Samsung WAM / Samsung WAM manual
 
 #### Triggers
 
@@ -36,6 +36,11 @@ Please report issues at the [issues section on Github](https://github.com/balmli
 Use at your own risk. I accept no responsibility for any damages caused by using this app.
 
 ## Release Notes:
+
+#### 0.9.8
+
+- Change class to speaker
+- Minor bug fix
 
 #### 0.9.7
 

@@ -1,4 +1,7 @@
 {
+  "0.9.8": {
+    "en": "Change class to speaker. Minor bug fix. "
+  },
   "0.9.7": {
     "en": "Input sources for more models. Support power on / off. "
   },
