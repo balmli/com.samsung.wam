@@ -1,4 +1,7 @@
 {
+  "0.9.9": {
+    "en": "Change class to speaker. Fixed missing flows for 'Samsung WAM manual' device. Minor bug fix. "
+  },
   "0.9.8": {
     "en": "Change class to speaker. Minor bug fix. "
   },

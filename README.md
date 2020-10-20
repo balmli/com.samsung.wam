@@ -22,10 +22,10 @@ Use this app to control your Samsung soundbar.
 - Set volume
 - Increase volume
 - Decrease volume
-- Mute 
+- Mute
 - Unmute
 - Set input source
-- Play audio url 
+- Play audio url
 
 ## Feedback:
 
@@ -36,6 +36,10 @@ Please report issues at the [issues section on Github](https://github.com/balmli
 Use at your own risk. I accept no responsibility for any damages caused by using this app.
 
 ## Release Notes:
+
+#### 0.9.9
+
+- Fixed missing flows for 'Samsung WAM manual' device
 
 #### 0.9.8
 
@@ -65,7 +69,7 @@ Use at your own risk. I accept no responsibility for any damages caused by using
 
 #### 0.9.1
 
-- On/off capability for soundbars than does not support power status 
+- On/off capability for soundbars than does not support power status
 
 #### 0.9.0
 

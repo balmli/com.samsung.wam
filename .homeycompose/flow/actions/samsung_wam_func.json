@@ -10,7 +10,7 @@
     {
       "type": "device",
       "name": "device",
-      "filter": "driver_id=SamsungWAM"
+      "filter": "driver_id=SamsungWAM|SamsungWAMManual"
     },
     {
       "name": "inputSource",

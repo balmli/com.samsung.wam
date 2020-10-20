@@ -1,6 +1,6 @@
 {
   "name": "com.samsung.wam",
-  "version": "0.9.8",
+  "version": "0.9.9",
   "description": "Samsung Wireless Audio Multiroom",
   "main": "app.js",
   "scripts": {
