@@ -1,4 +1,7 @@
 {
+  "1.0.0": {
+    "en": "Updated to SDK3. "
+  },
   "0.9.9": {
     "en": "Change class to speaker. Fixed missing flows for 'Samsung WAM manual' device. Minor bug fix. "
   },

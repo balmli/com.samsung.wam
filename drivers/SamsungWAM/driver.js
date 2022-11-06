@@ -9,7 +9,7 @@ module.exports = class SamsungWAMDriver extends Homey.Driver {
     this.log('SamsungWAMDriver has been initialized');
   }
 
-  async onPairListDevices(data, callback) {
+  async onPairListDevices() {
 
     const samsungWAMApi = new SamsungWAMApi({
       logger: this.log,
@@ -83,7 +83,7 @@ module.exports = class SamsungWAMDriver extends Homey.Driver {
     }
 
     this.log('Found devices', devices);
-    callback(null, devices);
+    return devices;
   }
 
 };

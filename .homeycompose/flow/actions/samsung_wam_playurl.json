@@ -3,6 +3,9 @@
   "title": {
     "en": "Play audio url"
   },
+  "titleFormatted": {
+    "en": "Play audio url [[url]]"
+  },
   "hint": {
     "en": "Play audio url."
   },

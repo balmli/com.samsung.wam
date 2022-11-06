@@ -1,8 +1,13 @@
 env.json
 *.iml
 .idea
+docs/
 node_modules/*
 !node_modules/http.min
 !node_modules/sax
 !node_modules/xml2js
 !node_modules/xmlbuilder
+
+
+# Added by Homey CLI
+/.homeybuild/

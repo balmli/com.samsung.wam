@@ -14,10 +14,10 @@ module.exports = class SamsungWAMDriver extends Homey.Driver {
     });
   }
 
-  onPair(socket) {
+  async onPair(session) {
     let self = this;
 
-    socket.on('model_input', async (data, callback) => {
+      session.setHandler('model_input', async (data) => {
       this._api.updateIpAddress(data.ipaddress);
       this._api.updatePort(data.port);
       try {
@@ -33,16 +33,16 @@ module.exports = class SamsungWAMDriver extends Homey.Driver {
           this.log(`On / off is not supported for ${data.ipaddress}`);
         }
 
-        callback(null, {
+        return {
           id: apInfo.mac,
           speakerName: speakerName,
           networkType: apInfo.networkType,
           onOff: onOff
-        });
+        };
 
       } catch (err) {
         self.log(`Found no speaker: ${data.ipaddress}:${data.port}`, err);
-        callback(err, null);
+        throw err;
       }
     });
 
