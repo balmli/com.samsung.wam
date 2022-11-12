@@ -1,6 +1,6 @@
 {
   "id": "com.samsung.wam",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "compatibility": ">=5.0.0",
   "sdk": 3,
   "brandColor": "#206ADF",
@@ -46,9 +46,5 @@
       }
     }
   },
-  "bugs": {
-    "url": "https://github.com/balmli/com.samsung.wam/issues"
-  },
-  "homeyCommunityTopicId": 30840,
-  "source": "https://github.com/balmli/com.samsung.wam"
+  "homeyCommunityTopicId": 30840
 }
