@@ -37,7 +37,7 @@ Use at your own risk. I accept no responsibility for any damages caused by using
 
 ## Release Notes:
 
-#### 1.1.0
+#### 1.1.1
 
 - Updated app image
 - Updated pairing screen
